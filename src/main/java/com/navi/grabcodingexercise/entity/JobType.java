@@ -15,7 +15,7 @@ public enum JobType {
         return value;
     }
 
-    public JobType findJobType(String value){
+    public static JobType findJobType(String value){
         for(JobType j : values()){
             if(j.value.equalsIgnoreCase(value)){
                 return j;

@@ -3,38 +3,33 @@ package com.navi.grabcodingexercise.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "job")
-public class Job extends BaseAuditEntity{
-    /*"job_id": "",
-            "job_description": "",
-            "job_type": "",
-            "run_id": 1,
-            "scriptFile": "",
-            "jarFile": "",
-            "main_class": "",
-            "params": ""
+@Table(name = "job",
+        uniqueConstraints = @UniqueConstraint(name = "uc_jobid_groupid_runid", columnNames = {"job_id", "group_id", "run_id"}))
+public class Job extends BaseAuditEntity {
 
-     */
-    @Column
+    @Column(name = "job_id", nullable = false)
     String jobId;
 
-    @Column
+    @Column(name = "job_description")
     String jobDescription;
 
-    @Column
+    @Column(name = "job_type", nullable = false)
     @Enumerated(EnumType.STRING)
     JobType jobType;
 
-    @Column
+    @Column(name = "run_id", nullable = false)
     Integer runId;
 
-    @Column
+    @Column(name = "script_file")
     String scriptFile;
 
-    @Column
+    @Column(name = "jar_file")
     String jarFile;
 
-    @Column(length = 1000)
+    @Column(name = "main_class")
+    String mainClass;
+
+    @Column(name = "params", length = 1000)
     String params;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -86,6 +81,14 @@ public class Job extends BaseAuditEntity{
 
     public void setJarFile(String jarFile) {
         this.jarFile = jarFile;
+    }
+
+    public String getMainClass() {
+        return mainClass;
+    }
+
+    public void setMainClass(String mainClass) {
+        this.mainClass = mainClass;
     }
 
     public String getParams() {

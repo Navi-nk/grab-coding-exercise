@@ -1,20 +1,22 @@
 package com.navi.grabcodingexercise.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "job_group")
+@Table(name = "job_group",
+        uniqueConstraints = @UniqueConstraint(name = "uc_groupid", columnNames = {"group_id"}))
 public class Group extends BaseAuditEntity{
 
-    @Column
+    @Column(name = "group_id")
     String groupId;
 
-    @Column(length = 1000)
+    @Column(name = "group_description", length = 1000)
     String groupDescription;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "group")
-    Set<Job> jobs;
+    Set<Job> jobs = new HashSet<>();
 
     public String getGroupId() {
         return groupId;

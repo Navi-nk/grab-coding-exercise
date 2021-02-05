@@ -3,17 +3,17 @@ Take home assignments for Grab interview
 
 
 {
-    "group_id": "",
-    "group_description": "",
+    "groupId": "",
+    "groupDescription": "",
     "jobs": [
         {
-            "job_id": "",
-            "job_description": "",
-            "job_type": "",
-            "run_id": 1,
-            "script": "",
-            "jar": "",
-            "main_class": "",
+            "jobId": "",
+            "jobDescription": "",
+            "jobType": "",
+            "runId": 1,
+            "scriptPath": "",
+            "jarPath": "",
+            "mainClass": "",
             "params": ""
         }
     ]
