@@ -5,6 +5,7 @@ import com.navi.grabcodingexercise.entity.builder.JobGroupBuilder;
 import com.navi.grabcodingexercise.model.JobGroupRequest;
 import com.navi.grabcodingexercise.repository.GroupRepository;
 import com.navi.grabcodingexercise.util.JsonConvertor;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -25,19 +26,36 @@ public class JobGroupService {
 
     public JobGroupRequest createJobGroup(JobGroupRequest request){
         logger.info(String.format("Received create request: %s", JsonConvertor.toJsonString(request)));
-        JobGroupBuilder builder = new JobGroupBuilder(request);
-        Group groupTobeCreated = builder.build();
-        Group createdGroup = groupRepository.save(groupTobeCreated);
-        return JobGroupRequest.from(createdGroup);
+        try {
+            JobGroupBuilder builder = new JobGroupBuilder(request);
+            Group groupTobeCreated = builder.build();
+            Group createdGroup = groupRepository.save(groupTobeCreated);
+            return JobGroupRequest.from(createdGroup);
+        } catch (Exception e) {
+            if(e instanceof IllegalArgumentException || e instanceof NullPointerException || e.getCause() instanceof ConstraintViolationException)
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage()
+                );
+            throw e;
+        }
+
     }
 
     public JobGroupRequest saveJobGroup(Long id , JobGroupRequest request){
         logger.info(String.format("Received save request: %s for id: %d", JsonConvertor.toJsonString(request), id));
-        Group groupTobeSaved = mayBeFindGroup(id);
-        JobGroupBuilder builder = new JobGroupBuilder(groupTobeSaved, request);
-        groupTobeSaved = builder.build();
-        Group savedGroup = groupRepository.save(groupTobeSaved);
-        return JobGroupRequest.from(savedGroup);
+        try {
+            Group groupTobeSaved = mayBeFindGroup(id);
+            JobGroupBuilder builder = new JobGroupBuilder(groupTobeSaved, request);
+            groupTobeSaved = builder.build();
+            Group savedGroup = groupRepository.save(groupTobeSaved);
+            return JobGroupRequest.from(savedGroup);
+        } catch (Exception e) {
+            if(e instanceof IllegalArgumentException || e instanceof NullPointerException || e.getCause() instanceof ConstraintViolationException)
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage()
+                );
+            throw e;
+        }
     }
 
     public JobGroupRequest getJobGroup(Long id){

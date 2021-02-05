@@ -7,7 +7,7 @@ public enum JobType {
 
     private final String value;
 
-    private JobType(String value){
+    JobType(String value){
         this.value = value;
     }
 
@@ -21,6 +21,6 @@ public enum JobType {
                 return j;
             }
         }
-        throw new IllegalArgumentException("JobType not found for:"+value);
+        return null;
     }
 }
