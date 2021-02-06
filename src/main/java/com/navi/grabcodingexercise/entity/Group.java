@@ -10,13 +10,13 @@ import java.util.Set;
 public class Group extends BaseAuditEntity{
 
     @Column(name = "group_id")
-    String groupId;
+    private String groupId;
 
     @Column(name = "group_description", length = 1000)
-    String groupDescription;
+    private String groupDescription;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "group")
-    Set<Job> jobs = new HashSet<>();
+    private Set<Job> jobs = new HashSet<>();
 
     public String getGroupId() {
         return groupId;

@@ -10,17 +10,17 @@ import javax.persistence.*;
 public class JobInstance extends BaseAuditEntity{
 
     @Column(name = "job_id", nullable = false)
-    String jobId;
+    private String jobId;
 
     @Column(name = "job_instance_id", nullable = false)
-    String jobInstanceId;
+    private String jobInstanceId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    JobGroupInstance jobGroupInstance;
+    private JobGroupInstance jobGroupInstance;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    ExecutionStatus status;
+    private ExecutionStatus status;
 
     @Column(name = "job_result", nullable = false)
     @Convert(converter = JobResultConvertor.class)

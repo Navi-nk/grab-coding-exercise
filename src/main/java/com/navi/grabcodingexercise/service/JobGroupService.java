@@ -65,6 +65,13 @@ public class JobGroupService {
         );
     }
 
+    public JobGroupRequest getJobGroup(String groupId){
+        logger.info(String.format("Received get for id: %s", groupId));
+        return JobGroupRequest.from(
+                mayBeFindGroup(groupId)
+        );
+    }
+
     public void deleteJobGroup(Long id){
         logger.info(String.format("Received delete for id: %d", id));
         groupRepository.delete(
@@ -77,6 +84,15 @@ public class JobGroupService {
         return jobGroup.orElseThrow( () ->
                 new ResponseStatusException(
                         HttpStatus.NOT_FOUND, String.format("Group not found for id: %d",id)
+                )
+        );
+    }
+
+    private Group mayBeFindGroup(String groupId){
+        Optional<Group> jobGroup = groupRepository.findByGroupId(groupId);
+        return jobGroup.orElseThrow( () ->
+                new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, String.format("Group not found for id: %s",groupId)
                 )
         );
     }

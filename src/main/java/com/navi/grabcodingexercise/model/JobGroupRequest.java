@@ -73,6 +73,7 @@ public class JobGroupRequest {
         return Objects.hash(getId(), getGroupId(), getGroupDescription(), getJobs());
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class JobRequest {
         String jobId;
         String jobDescription;

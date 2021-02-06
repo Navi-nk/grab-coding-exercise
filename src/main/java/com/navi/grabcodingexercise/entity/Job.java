@@ -7,32 +7,32 @@ import javax.persistence.*;
 public class Job extends BaseAuditEntity {
 
     @Column(name = "job_id", nullable = false)
-    String jobId;
+    private String jobId;
 
     @Column(name = "job_description")
-    String jobDescription;
+    private String jobDescription;
 
     @Column(name = "job_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    JobType jobType;
+    private JobType jobType;
 
     @Column(name = "run_id", nullable = false)
-    Integer runId;
+    private Integer runId;
 
     @Column(name = "script_file")
-    String scriptFile;
+    private String scriptFile;
 
     @Column(name = "jar_file")
-    String jarFile;
+    private String jarFile;
 
     @Column(name = "main_class")
-    String mainClass;
+    private String mainClass;
 
     @Column(name = "params", length = 1000)
-    String params;
+    private String params;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    Group group;
+    private Group group;
 
     public String getJobId() {
         return jobId;

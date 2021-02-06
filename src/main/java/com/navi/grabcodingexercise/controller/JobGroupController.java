@@ -30,6 +30,12 @@ public class JobGroupController {
         return jobGroupService.getJobGroup(id);
     }
 
+    @GetMapping(value = "/group")
+    @ResponseBody
+    public JobGroupRequest fetchJobGroupByGroupId(@RequestParam("groupId") String groupId){
+        return jobGroupService.getJobGroup(groupId);
+    }
+
     @DeleteMapping(value = "/{id}")
     public void deleteJobGroup(@PathVariable Long id){
         jobGroupService.deleteJobGroup(id);

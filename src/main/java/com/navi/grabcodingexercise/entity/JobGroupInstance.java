@@ -12,14 +12,14 @@ import java.util.Set;
 public class JobGroupInstance extends BaseAuditEntity {
 
     @Column(name = "group_id", nullable = false)
-    String groupId;
+    private String groupId;
 
     @Column(name = "group_instance_id", nullable = false)
-    String groupInstanceId;
+    private String groupInstanceId;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    ExecutionStatus status;
+    private ExecutionStatus status;
 
     @Column(name = "job_group_snapshot", nullable = false)
     @Convert(converter = JobGroupAttributeConvertor.class)
@@ -27,7 +27,7 @@ public class JobGroupInstance extends BaseAuditEntity {
     private JobGroupRequest jobGroupSnapshot;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jobGroupInstance")
-    Set<JobInstance> jobInstances = new HashSet<>();
+    private Set<JobInstance> jobInstances = new HashSet<>();
 
     public String getGroupId() {
         return groupId;

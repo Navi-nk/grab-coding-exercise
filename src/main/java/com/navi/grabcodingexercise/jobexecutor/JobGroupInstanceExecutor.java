@@ -1,8 +1,38 @@
 package com.navi.grabcodingexercise.jobexecutor;
 
-public class JobGroupInstanceExecutor {
+import com.navi.grabcodingexercise.entity.ExecutionStatus;
+import com.navi.grabcodingexercise.entity.JobGroupInstance;
+import com.navi.grabcodingexercise.entity.builder.JobGroupInstanceBuilder;
+import com.navi.grabcodingexercise.model.JobGroupRequest;
+import com.navi.grabcodingexercise.repository.JobGroupInstanceRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    public void execute() {
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.stream.Collectors;
+
+public class JobGroupInstanceExecutor {
+    private Logger logger = LoggerFactory.getLogger(JobGroupInstanceExecutor.class);
+    private final ExecutorService executorService;
+
+    private final JobGroupInstanceRepository jobGroupInstanceRepository;
+
+    public JobGroupInstanceExecutor(JobGroupInstanceRepository jobGroupInstanceRepository, ExecutorService executorService) {
+        this.jobGroupInstanceRepository = jobGroupInstanceRepository;
+        this.executorService = executorService;
+    }
+
+    public void execute(JobGroupRequest request) {
+        List<JobGroupInstance> instances = jobGroupInstanceRepository.findByGroupIdAndStatus(request.getGroupId(), ExecutionStatus.RUNNING);
+        if(instances.size() > 0){
+            String ids = instances.stream().map(JobGroupInstance::getGroupInstanceId).collect(Collectors.joining(","));
+            logger.info("Following instances are already running {}", ids);
+            return;
+        }
+
+        JobGroupInstance instance = new JobGroupInstanceBuilder(request).build();
+
 
     }
 }
