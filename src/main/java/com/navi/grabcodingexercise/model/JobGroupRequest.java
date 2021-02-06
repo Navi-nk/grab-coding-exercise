@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.navi.grabcodingexercise.entity.Group;
 import com.navi.grabcodingexercise.entity.Job;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,6 +55,22 @@ public class JobGroupRequest {
         request.setGroupDescription(source.getGroupDescription());
         request.setJobs(JobRequest.from(source.getJobs()));
         return request;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof JobGroupRequest)) return false;
+        JobGroupRequest request = (JobGroupRequest) o;
+        return Objects.equals(getId(), request.getId()) &&
+                Objects.equals(getGroupId(),request.getGroupId()) &&
+                Objects.equals(getGroupDescription(), request.getGroupDescription()) &&
+                Objects.equals(getJobs(), request.getJobs());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getGroupId(), getGroupDescription(), getJobs());
     }
 
     public static class JobRequest {
@@ -143,6 +160,26 @@ public class JobGroupRequest {
 
         public void setParams(String params) {
             this.params = params;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof JobRequest)) return false;
+            JobRequest that = (JobRequest) o;
+            return Objects.equals(getJobId(), that.getJobId()) &&
+                    Objects.equals(getJobDescription(), that.getJobDescription()) &&
+                    Objects.equals(getJobType(), that.getJobType()) &&
+                    Objects.equals(getRunId(), that.getRunId()) &&
+                    Objects.equals(getScriptPath(), that.getScriptPath()) &&
+                    Objects.equals(getJarPath(), that.getJarPath()) &&
+                    Objects.equals(getMainClass(), that.getMainClass()) &&
+                    Objects.equals(getParams(), that.getParams());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getJobId(), getJobDescription(), getJobType(), getRunId(), getScriptPath(), getJarPath(), getMainClass(), getParams());
         }
     }
 }

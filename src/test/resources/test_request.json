@@ -1,0 +1,30 @@
+{
+  "groupId": "test_group",
+  "groupDescription": "This group is for testing",
+  "jobs": [
+    {
+      "jobId": "job1",
+      "jobDescription": "Java Job",
+      "jobType": "java",
+      "runId": 1,
+      "jarPath": "/test.jar",
+      "mainClass": "com.some.test.Main",
+      "params": "arg1 arg2"
+    },
+    {
+      "jobId": "job2",
+      "jobDescription": "Python Job",
+      "jobType": "python",
+      "runId": 2,
+      "scriptPath": "/test.py"
+    },
+    {
+      "jobId": "job3",
+      "jobDescription": "Shell script",
+      "jobType": "shell",
+      "runId": 3,
+      "scriptPath": "/test.sh",
+      "params": "arg1"
+    }
+  ]
+}

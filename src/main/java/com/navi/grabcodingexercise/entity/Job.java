@@ -3,8 +3,7 @@ package com.navi.grabcodingexercise.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "job",
-        uniqueConstraints = @UniqueConstraint(name = "uc_jobid_groupid_runid", columnNames = {"job_id", "group_id", "run_id"}))
+@Table(name = "job")
 public class Job extends BaseAuditEntity {
 
     @Column(name = "job_id", nullable = false)
