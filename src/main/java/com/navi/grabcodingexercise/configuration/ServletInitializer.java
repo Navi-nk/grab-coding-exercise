@@ -1,5 +1,6 @@
-package com.navi.grabcodingexercise;
+package com.navi.grabcodingexercise.configuration;
 
+import com.navi.grabcodingexercise.GrabCodingExerciseApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 

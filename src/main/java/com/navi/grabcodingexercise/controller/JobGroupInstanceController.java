@@ -21,7 +21,7 @@ public class JobGroupInstanceController {
 
     @GetMapping(value = "/execution")
     @ResponseBody
-    public JobGroupInstanceMessage someFunc(@RequestParam("instanceId") String instanceId) {
-        return null;
+    public JobGroupInstanceMessage fetchJobInstance(@RequestParam("instanceId") String instanceId) {
+        return jobGroupInstanceService.fetchJobGroupInstance(instanceId);
     }
 }

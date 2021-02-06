@@ -22,3 +22,7 @@ Take home assignments for Grab interview
 
 to generate surefire report
  mvn surefire-report:report site
+ 
+ 
+ swagger
+ http://localhost:8090/jobservice/swagger-ui/#/

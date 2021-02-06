@@ -6,6 +6,7 @@ import com.navi.grabcodingexercise.entity.builder.JobGroupInstanceBuilder;
 import com.navi.grabcodingexercise.model.JobGroupInstanceMessage;
 import com.navi.grabcodingexercise.model.JobGroupRequest;
 import com.navi.grabcodingexercise.repository.JobGroupInstanceRepository;
+import com.navi.grabcodingexercise.util.JsonConvertor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,12 @@ public class JobGroupInstanceExecutor {
         }
 
         JobGroupInstance instance = new JobGroupInstanceBuilder(request).build();
+        JobGroupInstance savedInstance = jobGroupInstanceRepository.save(instance);
+        logger.info("Job instance {}", JsonConvertor.toJsonString(savedInstance));
 
+
+
+        return JobGroupInstanceMessage.from(savedInstance);
 
     }
 }
