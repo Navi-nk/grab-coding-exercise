@@ -3,6 +3,7 @@ package com.navi.grabcodingexercise.jobexecutor;
 import com.navi.grabcodingexercise.entity.ExecutionStatus;
 import com.navi.grabcodingexercise.entity.JobGroupInstance;
 import com.navi.grabcodingexercise.entity.builder.JobGroupInstanceBuilder;
+import com.navi.grabcodingexercise.model.JobGroupInstanceMessage;
 import com.navi.grabcodingexercise.model.JobGroupRequest;
 import com.navi.grabcodingexercise.repository.JobGroupInstanceRepository;
 import org.slf4j.Logger;
@@ -23,12 +24,11 @@ public class JobGroupInstanceExecutor {
         this.executorService = executorService;
     }
 
-    public void execute(JobGroupRequest request) {
+    public JobGroupInstanceMessage execute(JobGroupRequest request) {
         List<JobGroupInstance> instances = jobGroupInstanceRepository.findByGroupIdAndStatus(request.getGroupId(), ExecutionStatus.RUNNING);
         if(instances.size() > 0){
             String ids = instances.stream().map(JobGroupInstance::getGroupInstanceId).collect(Collectors.joining(","));
-            logger.info("Following instances are already running {}", ids);
-            return;
+            throw new IllegalArgumentException(String.format("Following instances are already running %s", ids));
         }
 
         JobGroupInstance instance = new JobGroupInstanceBuilder(request).build();

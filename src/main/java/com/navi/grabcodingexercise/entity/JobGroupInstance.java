@@ -8,7 +8,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "job_group_instance")
+@Table(name = "job_group_instance",
+        uniqueConstraints = @UniqueConstraint(name = "uc_group_instanceid", columnNames = {"group_instance_id"}))
 public class JobGroupInstance extends BaseAuditEntity {
 
     @Column(name = "group_id", nullable = false)
