@@ -7,6 +7,7 @@ import com.navi.grabcodingexercise.model.JobGroupInstanceMessage;
 import com.navi.grabcodingexercise.model.JobGroupRequest;
 import com.navi.grabcodingexercise.repository.JobGroupInstanceRepository;
 import com.navi.grabcodingexercise.util.JsonConvertor;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
@@ -54,7 +55,15 @@ public class JobGroupInstanceService {
     public JobGroupInstanceMessage executeJobGroup(String groupId) {
         JobGroupRequest request = jobGroupService.getJobGroup(groupId);
         logger.info("Executing job group {}", JsonConvertor.toJsonString(request));
-        return new JobGroupInstanceExecutor(jobGroupInstanceRepository, executorService).execute(request);
+        try {
+            return new JobGroupInstanceExecutor(jobGroupInstanceRepository, executorService).execute(request);
+        }catch (Exception e) {
+            if(e instanceof IllegalArgumentException || e instanceof NullPointerException || e.getCause() instanceof ConstraintViolationException)
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage()
+                );
+            throw e;
+        }
     }
 
     public JobGroupInstanceMessage fetchJobGroupInstance(String jobGroupInstanceId) {

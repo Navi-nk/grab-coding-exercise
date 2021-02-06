@@ -14,8 +14,8 @@ public class JobGroupInstanceController {
         this.jobGroupInstanceService = jobGroupInstanceService;
     }
 
-    @PostMapping(value = "/execute")
-    public JobGroupInstanceMessage executeJobGroup(@RequestParam("groupId") String groupId) {
+    @PostMapping(value = "/execute/{groupId}")
+    public JobGroupInstanceMessage executeJobGroup(@PathVariable("groupId") String groupId) {
         return jobGroupInstanceService.executeJobGroup(groupId);
     }
 

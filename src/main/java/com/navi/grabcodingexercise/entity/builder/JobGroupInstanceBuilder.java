@@ -27,7 +27,7 @@ public class JobGroupInstanceBuilder {
     }
 
     private String createInstanceId() {
-        String dt = DateTimeFormatter.ofPattern("yyyyMMdd-hhmiss").format(LocalDateTime.now());
+        String dt = DateTimeFormatter.ofPattern("yyyyMMdd-hhmmss").format(LocalDateTime.now());
         return request.getGroupId() + "-" + dt;
     }
 }
