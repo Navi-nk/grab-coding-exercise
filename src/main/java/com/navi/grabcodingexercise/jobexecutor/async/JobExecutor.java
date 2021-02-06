@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class JobExecutor implements Callable<JobResult> {
 
@@ -17,7 +16,7 @@ public class JobExecutor implements Callable<JobResult> {
     private final Logger logger = LoggerFactory.getLogger(JobExecutor.class);
 
     final String command;
-
+    private final ExecutorService executor = Executors.newFixedThreadPool(2);
     public JobExecutor(String command) {
         this.command = command;
     }
@@ -33,14 +32,10 @@ public class JobExecutor implements Callable<JobResult> {
             ProcessStreamHandler stdOutHandler = new ProcessStreamHandler(process.getInputStream(), stdOut::add,"stdOut");
             ProcessStreamHandler stdErrHandler = new ProcessStreamHandler(process.getErrorStream(), stdErr::add,"stdErr");
 
-            ExecutorService executor = Executors.newFixedThreadPool(2);
             executor.submit(stdOutHandler);
             executor.submit(stdErrHandler);
 
             int exitCode = process.waitFor();
-
-            executor.shutdown();
-            executor.awaitTermination(1L, TimeUnit.HOURS);
 
             if(stdErr.size() > 0)
                 result.setStandardErrorMessage(String.join("\n", stdErr));
@@ -49,13 +44,16 @@ public class JobExecutor implements Callable<JobResult> {
             if(exitCode != 0)
                 result.setExceptionMessage("Job failed with code: " + exitCode);
             result.setSuccess(exitCode == SUCCESS_EXIT_CODE);
-
+            logger.info("Finished command {}", command);
             return result;
         } catch (Exception e){
             logger.error(String.format("Exception while executing job : %s", command), e);
             result.setSuccess(false);
             result.setExceptionMessage(e.getMessage());
             return result;
+        }finally {
+            logger.info("Shutting down stream collector executor");
+            executor.shutdownNow();
         }
     }
 }
