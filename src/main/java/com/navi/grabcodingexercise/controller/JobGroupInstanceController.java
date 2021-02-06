@@ -24,4 +24,9 @@ public class JobGroupInstanceController {
     public JobGroupInstanceMessage fetchJobInstance(@RequestParam("instanceId") String instanceId) {
         return jobGroupInstanceService.fetchJobGroupInstance(instanceId);
     }
+
+    @PostMapping(value = "/execution/cancel/{instanceId}")
+    public void cancelJobGroupExecution(@PathVariable("instanceId") String instanceId) {
+         jobGroupInstanceService.cancelJobGroupExecution(instanceId);
+    }
 }

@@ -23,7 +23,7 @@ public class JobInstance extends BaseAuditEntity{
     @Enumerated(EnumType.STRING)
     private ExecutionStatus status;
 
-    @Column(name = "job_result", nullable = false)
+    @Column(name = "job_result")
     @Convert(converter = JobResultConvertor.class)
     @Lob
     private JobResult jobResult;
