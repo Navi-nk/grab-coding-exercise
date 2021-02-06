@@ -7,6 +7,7 @@ import com.navi.grabcodingexercise.jobexecutor.async.JobGroupExecutor;
 import com.navi.grabcodingexercise.model.JobGroupInstanceMessage;
 import com.navi.grabcodingexercise.model.JobGroupRequest;
 import com.navi.grabcodingexercise.repository.JobGroupInstanceRepository;
+import com.navi.grabcodingexercise.repository.JobInstanceRepository;
 import com.navi.grabcodingexercise.util.JsonConvertor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +24,13 @@ public class JobGroupInstanceExecutor {
     private final ConcurrentHashMap<String, Future<String>> jobTrackerMap;
 
     private final JobGroupInstanceRepository jobGroupInstanceRepository;
+    private final JobInstanceRepository jobInstanceRepository;
 
-    public JobGroupInstanceExecutor(ExecutorService executorService, ConcurrentHashMap<String, Future<String>> jobTrackerMap, JobGroupInstanceRepository jobGroupInstanceRepository) {
+    public JobGroupInstanceExecutor(ExecutorService executorService, ConcurrentHashMap<String, Future<String>> jobTrackerMap, JobGroupInstanceRepository jobGroupInstanceRepository, JobInstanceRepository jobInstanceRepository) {
         this.executorService = executorService;
         this.jobTrackerMap = jobTrackerMap;
         this.jobGroupInstanceRepository = jobGroupInstanceRepository;
+        this.jobInstanceRepository = jobInstanceRepository;
     }
 
     public JobGroupInstanceMessage execute(JobGroupRequest request) {
@@ -41,21 +44,9 @@ public class JobGroupInstanceExecutor {
         JobGroupInstance savedInstance = jobGroupInstanceRepository.save(instance);
         logger.info("Job instance {}", JsonConvertor.toJsonString(savedInstance));
 
+        Future<String> jobGroupFuture = executorService.submit(
+                new JobGroupExecutor(savedInstance, request, jobGroupInstanceRepository, jobInstanceRepository));
 
-        /*CompletableFuture<String> jobGroupFuture = CompletableFuture.supplyAsync(new JobGroupExecutor(instance, request, jobGroupInstanceRepository), executorService).thenApplyAsync(
-                result -> {
-                    jobTrackerMap.remove(result);
-                   /* try {
-                        TimeUnit.SECONDS.sleep(15);
-                        logger.info("completed now");
-                    } catch (InterruptedException e) {
-                        throw new IllegalStateException(e);
-                    }
-                    logger.info("completed outside now");
-                    return result;
-                }
-        );*/
-        Future<String> jobGroupFuture = executorService.submit(new JobGroupExecutor(instance, request, jobGroupInstanceRepository));
         jobTrackerMap.putIfAbsent(instance.getGroupInstanceId(), jobGroupFuture);
 
         return JobGroupInstanceMessage.from(savedInstance);

@@ -1,11 +1,11 @@
 package com.navi.grabcodingexercise.service;
 
-import com.navi.grabcodingexercise.entity.Group;
 import com.navi.grabcodingexercise.entity.JobGroupInstance;
 import com.navi.grabcodingexercise.jobexecutor.JobGroupInstanceExecutor;
 import com.navi.grabcodingexercise.model.JobGroupInstanceMessage;
 import com.navi.grabcodingexercise.model.JobGroupRequest;
 import com.navi.grabcodingexercise.repository.JobGroupInstanceRepository;
+import com.navi.grabcodingexercise.repository.JobInstanceRepository;
 import com.navi.grabcodingexercise.util.JsonConvertor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -25,13 +25,15 @@ public class JobGroupInstanceService {
     private static final Logger logger = LoggerFactory.getLogger(JobGroupInstanceService.class);
 
     private final JobGroupInstanceRepository jobGroupInstanceRepository;
+    private final JobInstanceRepository jobInstanceRepository;
     private final JobGroupService jobGroupService;
     private final Environment environment;
     private ExecutorService executorService;
     private ConcurrentHashMap<String, Future<String>> jobTrackerMap;
 
-    public JobGroupInstanceService(JobGroupInstanceRepository jobGroupInstanceRepository, JobGroupService jobGroupService, Environment environment) {
+    public JobGroupInstanceService(JobGroupInstanceRepository jobGroupInstanceRepository, JobInstanceRepository jobInstanceRepository, JobGroupService jobGroupService, Environment environment) {
         this.jobGroupInstanceRepository = jobGroupInstanceRepository;
+        this.jobInstanceRepository = jobInstanceRepository;
         this.jobGroupService = jobGroupService;
         this.environment = environment;
     }
@@ -56,7 +58,7 @@ public class JobGroupInstanceService {
         JobGroupRequest request = jobGroupService.getJobGroup(groupId);
         logger.info("Executing job group {}", JsonConvertor.toJsonString(request));
         try {
-            return new JobGroupInstanceExecutor(executorService, jobTrackerMap,jobGroupInstanceRepository).execute(request);
+            return new JobGroupInstanceExecutor(executorService, jobTrackerMap,jobGroupInstanceRepository, jobInstanceRepository).execute(request);
         }catch (Exception e) {
             if(e instanceof IllegalArgumentException || e instanceof NullPointerException || e.getCause() instanceof ConstraintViolationException)
                 throw new ResponseStatusException(

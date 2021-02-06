@@ -4,8 +4,7 @@ import com.navi.grabcodingexercise.entity.ExecutionStatus;
 import com.navi.grabcodingexercise.entity.JobGroupInstance;
 import com.navi.grabcodingexercise.model.JobGroupRequest;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import static com.navi.grabcodingexercise.util.DateTimeUtil.getCurrentTimeStamp;
 
 public class JobGroupInstanceBuilder {
 
@@ -19,15 +18,10 @@ public class JobGroupInstanceBuilder {
 
     public JobGroupInstance build() {
         instance.setGroupId(request.getGroupId());
-        instance.setGroupInstanceId(createInstanceId());
+        instance.setGroupInstanceId(request.getGroupId() + "-" + getCurrentTimeStamp());
         instance.setJobGroupSnapshot(request);
         instance.setStatus(ExecutionStatus.RUNNING);
 
         return instance;
-    }
-
-    private String createInstanceId() {
-        String dt = DateTimeFormatter.ofPattern("yyyyMMdd-hhmmss").format(LocalDateTime.now());
-        return request.getGroupId() + "-" + dt;
     }
 }
