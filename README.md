@@ -1,5 +1,5 @@
-# grab-coding-exercise
-#####Take home assignments for Grab interview
+# Grab Coding Exercise
+##### Take home assignment for Grab interview
 Following are the requirements of the assignment
 Create a basic tool with RESTful API’s that manage and trigger the processes(ETL jobs).
 Required features : 
@@ -15,18 +15,28 @@ Following sections present the design of the service built to meet the above req
 
 The service is built using Spring Boot framework written in Java 8. The service uses MySQL as database and built for execution on Linux OS distributions.
 Controller-Service-DAO pattern is used to implement the tool and the functionalities provided are broadly categorised into two functions.
-1.  Creation and Management of Jobs and Group info. 
-2. Triggering execution of a specific JobGroup and monitoring its status.
+1. Creation and Management of Jobs and Group info. 
+2. Execution of a JobGroup and monitoring its status.
 
-####Creation and Management of Jobs and JobGroups
+#### Creation and Management of Jobs and JobGroups
 
 As provided in the requirement, a Job represents any arbitrary process and is the fundamental abstraction in the design. A Group represents a collection of Jobs and management of Jobs occurs through the associated group. i.e., any operation on a Job has to happen in context of the Group.
 
-Following shows the entity relation diagram of how this relationship.
+Following shows the entity relation diagram of this relationship - JobGroup and Job.
 
   <p align="center">
       <img src="Group-Job_ER.png" alt="Pages"/>
   </p>
+
+#### Execution of a JobGroup and monitoring its status.
+Once a Group and its associated Jobs info is saved, the service provides a non-blocking API to trigger execution of the Group. This execution occurs in background where the associated Jobs executes sequentially. The status of the execution is asynchronously stored in DB and this info is accessible via another API.
+
+Following shows the entity relation diagram of two entities, JobGroupInstance and JobInstance used to store the Job execution status.
+<p align="center">
+     <img src="Group-Job_Instance_ER.png" alt="Pages"/>
+</p>
+
+
 {
     "groupId": "",
     "groupDescription": "",
@@ -60,6 +70,4 @@ to generate surefire report
  
  
   
-   <p align="center">
-      <img src="Group-Job_Instance_ER.png" alt="Pages"/>
-    </p>
+   
