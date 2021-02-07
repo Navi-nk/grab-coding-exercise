@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.navi</groupId>
     <artifactId>grab-coding-exercise</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>war</packaging>
     <name>grab-coding-exercise</name>
     <description>Data Engineer Interview project</description>
@@ -68,6 +68,7 @@
     </dependencies>
 
     <build>
+        <finalName>job-group-orchestrator</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
