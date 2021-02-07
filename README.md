@@ -82,8 +82,7 @@ Swagger UI is enabled for the project and can be accessed using URL http://local
 As seen in the above pic, Job Group Controller has the APIs to store and manage Groups and Jobs. Job Group Instance Controller has the APIs to trigger execution and to monitor.
 
 ##### Model Description
-
-The Group and Job info input to the system is modelled as shown below
+The input and output of the Service is modelled in JSON. The Group and Job info input model is as shown below
 
 ```sh
 {
@@ -134,6 +133,68 @@ The Group and Job info input to the system is modelled as shown below
   | params | String      |    optional params to be sent to the job |
   | continueOnFail | boolean      |    flag which specifies whether to continue with subsequent execution if current job fails |
   
+ To trigger a JobGroup, the `groupId` needs to be provided as input to "/jobservice/jobGroup/execute/{groupId}" API. The Execution Info is modelled as below
  
+ ```sh
+{
+  "groupId": "test_group",
+  "groupInstanceId": "test_group-20210207-072254",
+  "status": "COMPLETED",
+  "jobInstances": [
+    {
+      "jobId": "job1",
+      "jobInstanceId": "job1-20210207-072254",
+      "jobRequest": {
+        "jobId": "job1",
+        "jobDescription": "java process",
+        "jobType": "java",
+        "runId": 3,
+        "jarPath": "/grab-coding-exercise/example/target/java-example-0.0.1-SNAPSHOT.jar",
+        "mainClass": "com.navi.javaexample.Main",
+        "params": "6",
+        "continueOnFail": false
+      },
+      "jobResult": {
+        "success": true,
+        "standardOutMessage": "Starting example program\nFactorial of 6 is 720\nFinished example program"
+      },
+      "status": "COMPLETED",
+      "startTime": "2021-02-07T19:22:54.505",
+      "endTime": "2021-02-07T19:22:54.726"
+    }
+  ],
+  "startTime": "2021-02-07T19:22:54.128",
+  "endTime": "2021-02-07T19:22:54.816"
+}
+```
+<b>JobGroupInstanceMessage</b>
+
+| Field         | Type          | Description  |
+  | ------------- |:------------- | :-----|
+  | groupId      | String          | Unique Identifier for Group being executed |
+  | groupInstanceId | String       |  Unique Identifier for Group execution |
+  | status | enum      |   Execution status - RUNNING,COMPLETED,FAILED |
+  | startTime | DateTime      |    Start time for group execution |
+  | endTime | DateTime      |    End time of group execution |
+  | jobInstances | List      |  Collection of one or more JobInstanceMessage objects representing Job execution   |
   
+  <b>JobInstanceMessage</b>
+  
+  | Field         | Type          | Description  |
+    | ------------- |:------------- | :-----|
+    | jobId      | String          | Unique Identifier for Job |
+    | jobInstanceId | String       |  Unique Identifier for Job execution |
+    | status | enum      |   Execution status - RUNNING,COMPLETED,FAILED |
+    | startTime | DateTime      |    Start time for Job execution |
+    | endTime | DateTime      |    End time of Job execution |
+    | jobRequest | Object      |  SnapShot of the JobRequest that is being executed   |
+    | jobResult | Object      |  Result of the job execution   |
+
+<b>JobResult</b>
+ | Field         | Type          | Description  |
+    | ------------- |:------------- | :-----|
+    | success      | boolean          | whether job failed or passed |
+    | standardOutMessage | String       |  Output of job captured from standard out stream of process |
+    | standardErrorMessage | String      |   Output of job captured from standard error stream of process |
+    | exceptionMessage | String      |   Exception message captured in case of failure |
    
