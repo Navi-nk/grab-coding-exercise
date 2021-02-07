@@ -191,6 +191,7 @@ The input and output of the Service is modelled in JSON. The Group and Job info 
     | jobResult | Object      |  Result of the job execution   |
 
 <b>JobResult</b>
+
  | Field         | Type          | Description  |
     | ------------- |:------------- | :-----|
     | success      | boolean          | whether job failed or passed |
