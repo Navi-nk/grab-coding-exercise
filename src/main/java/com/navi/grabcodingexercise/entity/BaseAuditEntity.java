@@ -9,7 +9,6 @@ import java.util.Date;
 
 /**
  * Abstarct Class having the auto generated primary key and audit fields. This is to be extended all Entities in the service.
- *
  */
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass

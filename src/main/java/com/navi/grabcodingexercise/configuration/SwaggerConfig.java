@@ -9,9 +9,16 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+/**
+ * Configuration Class to enable Swagger API docs and UI.
+ */
 @Configuration
 public class SwaggerConfig {
 
+    /***
+     * Bean definition method which configures controller package for swagger docs generation
+     * @return  Docket bean
+     */
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)

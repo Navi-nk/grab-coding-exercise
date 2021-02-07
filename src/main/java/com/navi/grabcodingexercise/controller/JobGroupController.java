@@ -4,6 +4,9 @@ import com.navi.grabcodingexercise.model.JobGroupRequest;
 import com.navi.grabcodingexercise.service.JobGroupService;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller for exposing APIs for Job Group management
+ */
 @RestController
 @RequestMapping(value = "/jobstore")
 public class JobGroupController {
