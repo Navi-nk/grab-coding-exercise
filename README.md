@@ -36,6 +36,13 @@ Following shows the entity relation diagram of two entities, JobGroupInstance an
      <img src="docs/Group-Job_Instance_ER.png" alt="Pages"/>
 </p>
 
+The Execution of Job Group is implemented as asynchorous process where each job of the group is executed sequentially and the result of said job either success or failure is stored in DB.
+The following shows the class diagram of the classes responsible for job execution.
+<p align="center">
+     <img src="docs/Executor.png" alt="Pages"/>
+</p>
+
+
 #### Artifact build and service start steps.
 The project is created using maven and produces a war file as final artifact. 
 Build command
@@ -81,7 +88,7 @@ Swagger UI is enabled for the project and can be accessed using URL http://local
 </p>
 As seen in the above pic, Job Group Controller has the APIs to store and manage Groups and Jobs. Job Group Instance Controller has the APIs to trigger execution and to monitor.
 
-##### Model Description
+#### Model Description
 The input and output of the Service is modelled in JSON. The Group and Job info input model is as shown below
 
 ```sh
@@ -187,14 +194,14 @@ The input and output of the Service is modelled in JSON. The Group and Job info 
 | status | enum      |   Execution status - RUNNING,COMPLETED,FAILED |
 | startTime | DateTime      |    Start time for Job execution |
 | endTime | DateTime      |    End time of Job execution |
-| jobRequest | Object      |  SnapShot of the JobRequest that is being executed   |
+| jobRequest | Object      |  Snapshot of the JobRequest that is being executed   |
 | jobResult | Object      |  Result of the job execution   |
 
 <b>JobResult</b>
 
 | Field         | Type          | Description  |
 | ------------- |:------------- | :-----|
-| success      | boolean          | whether job failed or passed |
+| success      | boolean          | Job failed or passed status|
 | standardOutMessage | String       |  Output of job captured from standard out stream of process |
 | standardErrorMessage | String      |   Output of job captured from standard error stream of process |
 | exceptionMessage | String      |   Exception message captured in case of failure |
