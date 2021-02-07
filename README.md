@@ -88,6 +88,8 @@ Swagger UI is enabled for the project and can be accessed using URL http://local
 </p>
 As seen in the above pic, Job Group Controller has the APIs to store and manage Groups and Jobs. Job Group Instance Controller has the APIs to trigger execution and to monitor.
 
+The Java Docs are enabled for the projects and the generated API docs can be accessed from <b>target/apidocs/index.html</b>
+
 #### Model Description
 The input and output of the Service is modelled in JSON. The Group and Job info input model is as shown below
 
