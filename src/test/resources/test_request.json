@@ -9,14 +9,16 @@
       "runId": 1,
       "jarPath": "/test.jar",
       "mainClass": "com.some.test.Main",
-      "params": "arg1 arg2"
+      "params": "arg1 arg2",
+      "continueOnFail" : false
     },
     {
       "jobId": "job2",
       "jobDescription": "Python Job",
       "jobType": "python",
       "runId": 2,
-      "scriptPath": "/test.py"
+      "scriptPath": "/test.py",
+      "continueOnFail" : true
     },
     {
       "jobId": "job3",
@@ -24,7 +26,8 @@
       "jobType": "shell",
       "runId": 3,
       "scriptPath": "/test.sh",
-      "params": "arg1"
+      "params": "arg1",
+      "continueOnFail" : false
     }
   ]
 }

@@ -79,37 +79,61 @@ Swagger UI is enabled for the project and can be accessed using URL http://local
 <p align="center">
      <img src="docs/Swagger_ui.png" alt="Pages"/>
 </p>
+As seen in the above pic, Job Group Controller has the APIs to store and manage Groups and Jobs. Job Group Instance Controller has the APIs to trigger execution and to monitor.
 
+##### Model Description
+
+The Group and Job info input to the system is modelled as shown below
+
+```sh
 {
-    "groupId": "",
-    "groupDescription": "",
-    "jobs": [
-        {
-            "jobId": "",
-            "jobDescription": "",
-            "jobType": "",
-            "runId": 1,
-            "scriptPath": "",
-            "jarPath": "",
-            "mainClass": "",
-            "params": ""
-        }
-    ]
+  "groupId": "test_group",
+  "groupDescription": "This group is for testing",
+  "jobs": [
+    {
+      "jobId": "job1",
+      "jobDescription": "Java Job",
+      "jobType": "java",
+      "runId": 1,
+      "jarPath": "/test.jar",
+      "mainClass": "com.some.test.Main",
+      "params": "arg1 arg2",
+      "continueOnFail" : false
+    },{
+      "jobId": "job2",
+      "jobDescription": "Python Job",
+      "jobType": "python",
+      "runId": 2,
+      "scriptPath": "/test.py",
+      "params": "arg1",
+      "continueOnFail" : true
+    }
+  ]
 }
+```
+<b>JobGroupRequest</b>
 
-
-
+ | Field         | Type          | Description  |
+ | ------------- |:------------- | :-----|
+ | groupId      | String          | Unique Identifier for group |
+ | groupDescription | String      |   Description for the group |
+ | jobs | List      |    Collection of one or More JobRequest objects representing Jobs |
  
  
- swagger
-
+ <b>JobRequest</b>
  
- 
-
- 
- The following shows the class diagram for the application
-
- 
+ | Field         | Type          | Description  |
+  | ------------- |:------------- | :-----|
+  | jobId      | String          | Unique Identifier for Job |
+  | jobDescription | String      |   Description for the Job |
+  | jobType | Enum      |    Represents type of Job. Supported - java, shell, python |
+  | runId | int      |    Running sequence which decides the order in which the jobs are to be executed |
+  | jarPath | String      |    Path to jar file to be executed for java jobType |
+  | mainClass | String      |    Main class of jar file to be executed for java jobType |
+  | scriptPath | String      |    Path to script file to be executed for python/shell jobType |
+  | params | String      |    optional params to be sent to the job |
+  | continueOnFail | boolean      |    flag which specifies whether to continue with subsequent execution if current job fails |
+  
  
   
    
