@@ -178,24 +178,24 @@ The input and output of the Service is modelled in JSON. The Group and Job info 
   | endTime | DateTime      |    End time of group execution |
   | jobInstances | List      |  Collection of one or more JobInstanceMessage objects representing Job execution   |
   
-  <b>JobInstanceMessage</b>
+  <b>JobInstanceMessage</b>  
   
-  | Field         | Type          | Description  |
-    | ------------- |:------------- | :-----|
-    | jobId      | String          | Unique Identifier for Job |
-    | jobInstanceId | String       |  Unique Identifier for Job execution |
-    | status | enum      |   Execution status - RUNNING,COMPLETED,FAILED |
-    | startTime | DateTime      |    Start time for Job execution |
-    | endTime | DateTime      |    End time of Job execution |
-    | jobRequest | Object      |  SnapShot of the JobRequest that is being executed   |
-    | jobResult | Object      |  Result of the job execution   |
+| Field         | Type          | Description  |
+| ------------- |:------------- | :-----|
+| jobId      | String          | Unique Identifier for Job |
+| jobInstanceId | String       |  Unique Identifier for Job execution |
+| status | enum      |   Execution status - RUNNING,COMPLETED,FAILED |
+| startTime | DateTime      |    Start time for Job execution |
+| endTime | DateTime      |    End time of Job execution |
+| jobRequest | Object      |  SnapShot of the JobRequest that is being executed   |
+| jobResult | Object      |  Result of the job execution   |
 
 <b>JobResult</b>
 
- | Field         | Type          | Description  |
-    | ------------- |:------------- | :-----|
-    | success      | boolean          | whether job failed or passed |
-    | standardOutMessage | String       |  Output of job captured from standard out stream of process |
-    | standardErrorMessage | String      |   Output of job captured from standard error stream of process |
-    | exceptionMessage | String      |   Exception message captured in case of failure |
+| Field         | Type          | Description  |
+| ------------- |:------------- | :-----|
+| success      | boolean          | whether job failed or passed |
+| standardOutMessage | String       |  Output of job captured from standard out stream of process |
+| standardErrorMessage | String      |   Output of job captured from standard error stream of process |
+| exceptionMessage | String      |   Exception message captured in case of failure |
    
