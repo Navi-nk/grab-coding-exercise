@@ -77,7 +77,7 @@ Following showing snippet of stdout after the above command is executed.
 #### API Description
 Swagger UI is enabled for the project and can be accessed using URL http://localhost:8090/jobservice/swagger-ui/#/
 <p align="center">
-     <img src="docs/Group-Job_Instance_ER.png" alt="Pages"/>
+     <img src="docs/Swagger_ui.png" alt="Pages"/>
 </p>
 
 {
