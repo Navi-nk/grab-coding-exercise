@@ -83,6 +83,7 @@ public class JobGroupRequest {
         String jarPath;
         String mainClass;
         String params;
+        Boolean continueOnFail;
 
         public static Set<JobRequest> from(Set<Job> jobs) {
             return jobs.stream().map( j -> {
@@ -95,6 +96,7 @@ public class JobGroupRequest {
                 jobRequest.setScriptPath(j.getScriptFile());
                 jobRequest.setMainClass(j.getMainClass());
                 jobRequest.setParams(j.getParams());
+                jobRequest.setContinueOnFail(j.getContinueOnFail());
                 return jobRequest;
             }).collect(Collectors.toSet());
         }
@@ -163,6 +165,14 @@ public class JobGroupRequest {
             this.params = params;
         }
 
+        public Boolean getContinueOnFail() {
+            return continueOnFail;
+        }
+
+        public void setContinueOnFail(Boolean continueOnFail) {
+            this.continueOnFail = continueOnFail;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -175,12 +185,13 @@ public class JobGroupRequest {
                     Objects.equals(getScriptPath(), that.getScriptPath()) &&
                     Objects.equals(getJarPath(), that.getJarPath()) &&
                     Objects.equals(getMainClass(), that.getMainClass()) &&
-                    Objects.equals(getParams(), that.getParams());
+                    Objects.equals(getParams(), that.getParams()) &&
+                    Objects.equals(getContinueOnFail(), that.getContinueOnFail());
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(getJobId(), getJobDescription(), getJobType(), getRunId(), getScriptPath(), getJarPath(), getMainClass(), getParams());
+            return Objects.hash(getJobId(), getJobDescription(), getJobType(), getRunId(), getScriptPath(), getJarPath(), getMainClass(), getParams(), getContinueOnFail());
         }
     }
 }

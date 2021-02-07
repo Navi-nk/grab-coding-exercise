@@ -9,15 +9,16 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-public class JobExecutor implements Callable<JobResult> {
+public class JobTask implements Callable<JobResult> {
 
     private final int SUCCESS_EXIT_CODE = 0;
-    private final Logger logger = LoggerFactory.getLogger(JobExecutor.class);
+    private final Logger logger = LoggerFactory.getLogger(JobTask.class);
 
     final String command;
     private final ExecutorService executor = Executors.newFixedThreadPool(2);
-    public JobExecutor(String command) {
+    public JobTask(String command) {
         this.command = command;
     }
 
@@ -32,15 +33,13 @@ public class JobExecutor implements Callable<JobResult> {
             ProcessStreamHandler stdOutHandler = new ProcessStreamHandler(process.getInputStream(), stdOut::add,"stdOut");
             ProcessStreamHandler stdErrHandler = new ProcessStreamHandler(process.getErrorStream(), stdErr::add,"stdErr");
 
-            executor.submit(stdOutHandler);
-            executor.submit(stdErrHandler);
+            Future<?> sf = executor.submit(stdOutHandler);
+            Future<?> ef = executor.submit(stdErrHandler);
 
             int exitCode = process.waitFor();
+            while (!sf.isDone() || !ef.isDone());
 
-            if(stdErr.size() > 0)
-                result.setStandardErrorMessage(String.join("\n", stdErr));
-            if(stdOut.size() > 0)
-                result.setStandardOutMessage(String.join("\n", stdOut));
+            handleOutErrStreams(result, stdOut, stdErr);
             if(exitCode != 0)
                 result.setExceptionMessage("Job failed with code: " + exitCode);
             result.setSuccess(exitCode == SUCCESS_EXIT_CODE);
@@ -50,10 +49,18 @@ public class JobExecutor implements Callable<JobResult> {
             logger.error(String.format("Exception while executing job : %s", command), e);
             result.setSuccess(false);
             result.setExceptionMessage(e.getMessage());
+            handleOutErrStreams(result, stdOut, stdErr);
             return result;
         }finally {
             logger.info("Shutting down stream collector executor");
             executor.shutdownNow();
         }
+    }
+
+    private void handleOutErrStreams(JobResult result, List<String> stdOut, List<String> stdErr) {
+        if(stdErr.size() > 0)
+            result.setStandardErrorMessage(String.join("\n", stdErr));
+        if(stdOut.size() > 0)
+            result.setStandardOutMessage(String.join("\n", stdOut));
     }
 }

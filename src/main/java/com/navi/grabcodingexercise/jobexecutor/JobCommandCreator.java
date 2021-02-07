@@ -5,13 +5,7 @@ import com.navi.grabcodingexercise.model.JobGroupRequest;
 
 public class JobCommandCreator {
 
-    private final JobGroupRequest.JobRequest job;
-
-    public JobCommandCreator(JobGroupRequest.JobRequest job) {
-        this.job = job;
-    }
-
-    public String create() {
+    public static String create(JobGroupRequest.JobRequest job) {
         JobType type = JobType.findJobType(job.getJobType());
         String params = job.getParams() == null ? "" : job.getParams();
         switch (type) {

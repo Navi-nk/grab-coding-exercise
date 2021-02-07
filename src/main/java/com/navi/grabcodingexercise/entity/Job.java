@@ -31,6 +31,9 @@ public class Job extends BaseAuditEntity {
     @Column(name = "params", length = 1000)
     private String params;
 
+    @Column(name="continue_on_fail" , columnDefinition = "bit(1) DEFAULT 0")
+    private Boolean continueOnFail = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Group group;
 
@@ -96,6 +99,14 @@ public class Job extends BaseAuditEntity {
 
     public void setParams(String params) {
         this.params = params;
+    }
+
+    public Boolean getContinueOnFail() {
+        return continueOnFail;
+    }
+
+    public void setContinueOnFail(Boolean continueOnFail) {
+        this.continueOnFail = continueOnFail;
     }
 
     public Group getGroup() {

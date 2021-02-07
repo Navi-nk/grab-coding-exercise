@@ -5,24 +5,30 @@ import com.navi.grabcodingexercise.entity.ExecutionStatus;
 import com.navi.grabcodingexercise.entity.JobGroupInstance;
 import com.navi.grabcodingexercise.entity.JobInstance;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.navi.grabcodingexercise.model.JobGroupRequest.JobRequest;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JobGroupInstanceMessage {
 
     private String groupId;
     private String groupInstanceId;
     private ExecutionStatus status;
     private Set<JobInstanceMessage> jobInstances = new HashSet<>();
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
     public static JobGroupInstanceMessage from(JobGroupInstance jobGroupInstance) {
         JobGroupInstanceMessage message = new JobGroupInstanceMessage();
         message.setGroupId(jobGroupInstance.getGroupId());
         message.setGroupInstanceId(jobGroupInstance.getGroupInstanceId());
         message.setStatus(jobGroupInstance.getStatus());
+        message.setStartTime(jobGroupInstance.getStartTime());
+        message.setEndTime(jobGroupInstance.getEndTime());
         message.setJobInstances(JobInstanceMessage.from(jobGroupInstance.getJobInstances(), jobGroupInstance.getJobGroupSnapshot().getJobs()));
         return message;
     }
@@ -59,6 +65,22 @@ public class JobGroupInstanceMessage {
         this.jobInstances = jobInstances;
     }
 
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class JobInstanceMessage {
 
@@ -67,6 +89,8 @@ public class JobGroupInstanceMessage {
         private JobRequest jobRequest;
         private JobResult jobResult;
         private ExecutionStatus status;
+        private LocalDateTime startTime;
+        private LocalDateTime endTime;
 
         public static Set<JobInstanceMessage> from(Set<JobInstance> jobInstances, Set<JobRequest> jobRequests) {
             return jobInstances.stream().map( j -> {
@@ -76,6 +100,8 @@ public class JobGroupInstanceMessage {
                 message.setJobResult(j.getJobResult());
                 message.setStatus(j.getStatus());
                 message.setJobRequest(jobRequestById(j.getJobId(), jobRequests));
+                message.setStartTime(j.getStartTime());
+                message.setEndTime(j.getEndTime());
                 return message;
             }).collect(Collectors.toSet());
         }
@@ -125,6 +151,22 @@ public class JobGroupInstanceMessage {
 
         public void setStatus(ExecutionStatus status) {
             this.status = status;
+        }
+
+        public LocalDateTime getStartTime() {
+            return startTime;
+        }
+
+        public void setStartTime(LocalDateTime startTime) {
+            this.startTime = startTime;
+        }
+
+        public LocalDateTime getEndTime() {
+            return endTime;
+        }
+
+        public void setEndTime(LocalDateTime endTime) {
+            this.endTime = endTime;
         }
     }
 }

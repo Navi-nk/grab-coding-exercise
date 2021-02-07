@@ -3,7 +3,7 @@ package com.navi.grabcodingexercise.jobexecutor;
 import com.navi.grabcodingexercise.entity.ExecutionStatus;
 import com.navi.grabcodingexercise.entity.JobGroupInstance;
 import com.navi.grabcodingexercise.entity.builder.JobGroupInstanceBuilder;
-import com.navi.grabcodingexercise.jobexecutor.async.JobGroupExecutor;
+import com.navi.grabcodingexercise.jobexecutor.async.JobGroupTask;
 import com.navi.grabcodingexercise.model.JobGroupInstanceMessage;
 import com.navi.grabcodingexercise.model.JobGroupRequest;
 import com.navi.grabcodingexercise.repository.JobGroupInstanceRepository;
@@ -45,7 +45,7 @@ public class JobGroupInstanceExecutor {
         logger.info("Job instance {}", JsonConvertor.toJsonString(savedInstance));
 
         Future<String> jobGroupFuture = executorService.submit(
-                new JobGroupExecutor(savedInstance, request, jobGroupInstanceRepository, jobInstanceRepository));
+                new JobGroupTask(savedInstance, request, jobGroupInstanceRepository, jobInstanceRepository));
 
         jobTrackerMap.putIfAbsent(instance.getGroupInstanceId(), jobGroupFuture);
 

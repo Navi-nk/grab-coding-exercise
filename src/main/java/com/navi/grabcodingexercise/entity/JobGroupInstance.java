@@ -4,6 +4,7 @@ import com.navi.grabcodingexercise.entity.convertor.JobGroupAttributeConvertor;
 import com.navi.grabcodingexercise.model.JobGroupRequest;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,6 +30,12 @@ public class JobGroupInstance extends BaseAuditEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jobGroupInstance")
     private Set<JobInstance> jobInstances = new HashSet<>();
+
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
+
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
 
     public String getGroupId() {
         return groupId;
@@ -68,5 +75,21 @@ public class JobGroupInstance extends BaseAuditEntity {
 
     public void setJobInstances(Set<JobInstance> jobInstances) {
         this.jobInstances = jobInstances;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 }

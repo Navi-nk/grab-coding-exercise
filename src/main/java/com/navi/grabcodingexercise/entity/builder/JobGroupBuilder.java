@@ -50,6 +50,7 @@ public class JobGroupBuilder {
             job.setMainClass(j.getMainClass());
             job.setScriptFile(j.getScriptPath());
             job.setParams(j.getParams());
+            job.setContinueOnFail(j.getContinueOnFail());
             job.setGroup(jobGroup);
             return job;
         }).collect(Collectors.toSet());

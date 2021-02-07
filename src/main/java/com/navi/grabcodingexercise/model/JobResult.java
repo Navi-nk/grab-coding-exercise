@@ -1,5 +1,8 @@
 package com.navi.grabcodingexercise.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JobResult {
     Boolean success;
     String standardOutMessage;

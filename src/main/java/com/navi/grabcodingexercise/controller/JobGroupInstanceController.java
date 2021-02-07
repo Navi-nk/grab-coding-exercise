@@ -1,16 +1,16 @@
 package com.navi.grabcodingexercise.controller;
 
 import com.navi.grabcodingexercise.model.JobGroupInstanceMessage;
-import com.navi.grabcodingexercise.service.JobGroupInstanceService;
+import com.navi.grabcodingexercise.service.impl.JobGroupInstanceServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/jobGroup")
 public class JobGroupInstanceController {
 
-    JobGroupInstanceService jobGroupInstanceService;
+    JobGroupInstanceServiceImpl jobGroupInstanceService;
 
-    public JobGroupInstanceController(JobGroupInstanceService jobGroupInstanceService) {
+    public JobGroupInstanceController(JobGroupInstanceServiceImpl jobGroupInstanceService) {
         this.jobGroupInstanceService = jobGroupInstanceService;
     }
 

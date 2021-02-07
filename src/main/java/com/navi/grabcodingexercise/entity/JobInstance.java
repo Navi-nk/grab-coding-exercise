@@ -4,6 +4,7 @@ import com.navi.grabcodingexercise.entity.convertor.JobResultConvertor;
 import com.navi.grabcodingexercise.model.JobResult;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "job_instance",
@@ -27,6 +28,12 @@ public class JobInstance extends BaseAuditEntity{
     @Convert(converter = JobResultConvertor.class)
     @Lob
     private JobResult jobResult;
+
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
+
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
 
     public String getJobId() {
         return jobId;
@@ -66,5 +73,21 @@ public class JobInstance extends BaseAuditEntity{
 
     public void setJobResult(JobResult jobResult) {
         this.jobResult = jobResult;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 }
