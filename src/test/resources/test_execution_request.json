@@ -1,0 +1,15 @@
+{
+  "groupId": "test_group",
+  "groupDescription": "This group is for testing",
+  "jobs": [
+    {
+      "jobId": "job1",
+      "jobDescription": "Shell job",
+      "jobType": "shell",
+      "runId": 1,
+      "scriptPath": "test.sh",
+      "params": "1",
+      "continueOnFail" : false
+    }
+  ]
+}

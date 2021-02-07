@@ -7,6 +7,7 @@ import com.navi.grabcodingexercise.model.JobGroupRequest;
 import com.navi.grabcodingexercise.repository.JobGroupInstanceRepository;
 import com.navi.grabcodingexercise.repository.JobInstanceRepository;
 import com.navi.grabcodingexercise.service.JobGroupInstanceService;
+import com.navi.grabcodingexercise.service.JobGroupService;
 import com.navi.grabcodingexercise.util.JsonConvertor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -30,12 +31,12 @@ public class JobGroupInstanceServiceImpl implements JobGroupInstanceService {
 
     private final JobGroupInstanceRepository jobGroupInstanceRepository;
     private final JobInstanceRepository jobInstanceRepository;
-    private final JobGroupServiceImpl jobGroupService;
+    private final JobGroupService jobGroupService;
     private final Environment environment;
     private ExecutorService executorService;
     private ConcurrentHashMap<String, Future<String>> jobTrackerMap;
 
-    public JobGroupInstanceServiceImpl(JobGroupInstanceRepository jobGroupInstanceRepository, JobInstanceRepository jobInstanceRepository, JobGroupServiceImpl jobGroupService, Environment environment) {
+    public JobGroupInstanceServiceImpl(JobGroupInstanceRepository jobGroupInstanceRepository, JobInstanceRepository jobInstanceRepository, JobGroupService jobGroupService, Environment environment) {
         this.jobGroupInstanceRepository = jobGroupInstanceRepository;
         this.jobInstanceRepository = jobInstanceRepository;
         this.jobGroupService = jobGroupService;

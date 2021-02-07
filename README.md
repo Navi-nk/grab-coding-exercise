@@ -26,3 +26,6 @@ to generate surefire report
  
  swagger
  http://localhost:8090/jobservice/swagger-ui/#/
+ 
+ 
+ java -jar grab-coding-exercise-0.0.1-SNAPSHOT.war
