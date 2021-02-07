@@ -29,3 +29,16 @@ to generate surefire report
  
  
  java -jar grab-coding-exercise-0.0.1-SNAPSHOT.war
+ 
+ The following shows the class diagram for the application
+ <p align="center">
+   <img src="Group-Job_ER.png" alt="Pages"/>
+ </p>
+ 
+ <p align="center">
+    <img src="Group-Job_ER.png" alt="Pages"/>
+  </p>
+  
+   <p align="center">
+      <img src="Group-Job_Instance_ER.png" alt="Pages"/>
+    </p>
