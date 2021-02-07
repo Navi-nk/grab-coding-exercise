@@ -18,8 +18,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 @Service
 public class JobGroupInstanceServiceImpl implements JobGroupInstanceService {
@@ -45,6 +48,7 @@ public class JobGroupInstanceServiceImpl implements JobGroupInstanceService {
         logger.info("Creating executor service with {} executor threads", executorCount);
         executorService = Executors.newFixedThreadPool(executorCount);
         jobTrackerMap = new ConcurrentHashMap<>();
+        setupJobTrackerCleanUp();
     }
 
     @PreDestroy
@@ -60,9 +64,9 @@ public class JobGroupInstanceServiceImpl implements JobGroupInstanceService {
         JobGroupRequest request = jobGroupService.getJobGroup(groupId);
         logger.info("Executing job group {}", JsonConvertor.toJsonString(request));
         try {
-            return new JobGroupInstanceExecutor(executorService, jobTrackerMap,jobGroupInstanceRepository, jobInstanceRepository).execute(request);
-        }catch (Exception e) {
-            if(e instanceof IllegalArgumentException || e instanceof NullPointerException || e.getCause() instanceof ConstraintViolationException)
+            return new JobGroupInstanceExecutor(executorService, jobTrackerMap, jobGroupInstanceRepository, jobInstanceRepository).execute(request);
+        } catch (Exception e) {
+            if (e instanceof IllegalArgumentException || e instanceof NullPointerException || e.getCause() instanceof ConstraintViolationException)
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage()
                 );
@@ -80,7 +84,7 @@ public class JobGroupInstanceServiceImpl implements JobGroupInstanceService {
 
     @Override
     public void cancelJobGroupExecution(String jobGroupInstanceId) {
-        if(!jobTrackerMap.containsKey(jobGroupInstanceId)){
+        if (!jobTrackerMap.containsKey(jobGroupInstanceId)) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, String.format("Job Instance for id %s not found", jobGroupInstanceId)
             );
@@ -91,13 +95,39 @@ public class JobGroupInstanceServiceImpl implements JobGroupInstanceService {
         jobTrackerMap.remove(jobGroupInstanceId);
     }
 
-    private JobGroupInstance mayBeFindGroupInstance(String jobGroupInstanceId){
+    private JobGroupInstance mayBeFindGroupInstance(String jobGroupInstanceId) {
         Optional<JobGroupInstance> jobGroupInstance = jobGroupInstanceRepository.findByGroupInstanceId(jobGroupInstanceId);
-        return jobGroupInstance.orElseThrow( () ->
+        return jobGroupInstance.orElseThrow(() ->
                 new ResponseStatusException(
                         HttpStatus.NOT_FOUND, String.format("Job Group instance not found for id: %s", jobGroupInstanceId)
                 )
         );
+    }
+
+    private void setupJobTrackerCleanUp() {
+        try {
+            logger.info("Setting up job tracker map clean up daemon");
+            ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+            scheduledExecutorService.scheduleAtFixedRate(this::cleanupJobMap, 0, 10, TimeUnit.MINUTES);
+
+        } catch (Exception e) {
+            logger.error("Error while setting up clean up daemon", e);
+        }
+    }
+
+    private void cleanupJobMap() {
+        try{
+            List<String> completedFutures = jobTrackerMap.entrySet()
+                    .stream().filter(e -> e.getValue().isDone())
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toList());
+
+            logger.info("Removing following jobs instance from tracker {}", String.join( ",", completedFutures));
+            completedFutures.forEach(f -> jobTrackerMap.remove(f));
+        }catch (Exception e) {
+            logger.error("Error while cleaning up job tracker map", e);
+        }
+
     }
 
 }
