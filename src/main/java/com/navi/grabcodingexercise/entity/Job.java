@@ -2,6 +2,9 @@ package com.navi.grabcodingexercise.entity;
 
 import javax.persistence.*;
 
+/***
+ * Entity class which is the backing ORM class for the table that stores Job info.
+ */
 @Entity
 @Table(name = "job")
 public class Job extends BaseAuditEntity {

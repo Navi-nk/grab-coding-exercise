@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+/***
+ * Class to serialise and de-serialise a given object. Uses Jackson object mapper for achieving this.
+ */
 public class JsonConvertor {
     public static <T> T toObject(String jsonString, Class<T> clazz) {
         try {

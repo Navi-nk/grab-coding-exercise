@@ -23,6 +23,9 @@ import java.util.stream.Collectors;
 
 import static com.navi.grabcodingexercise.util.DateTimeUtil.getCurrentTimeStamp;
 
+/***
+ * A Callable task that represents a JobGroup. Contains the logic to execute a given Group
+ */
 public class JobGroupTask implements Callable<String> {
     final Logger logger = LoggerFactory.getLogger(JobGroupTask.class);
     private final JobGroupInstance jobGroupInstance;

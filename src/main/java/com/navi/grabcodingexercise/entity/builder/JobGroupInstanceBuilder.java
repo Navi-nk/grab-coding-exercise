@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 
 import static com.navi.grabcodingexercise.util.DateTimeUtil.getCurrentTimeStamp;
 
+/***
+ * Builder class to create an instance of JobGroupInstance entity from JobGroupRequest model
+ */
 public class JobGroupInstanceBuilder {
 
     final JobGroupInstance instance;
@@ -18,6 +21,10 @@ public class JobGroupInstanceBuilder {
         this.request = request;
     }
 
+    /***
+     *  Main api method to trigger creation of JobGroupInstance Entity
+     * @return An instance of {@link com.navi.grabcodingexercise.entity.JobGroupInstance}
+     */
     public JobGroupInstance build() {
         instance.setGroupId(request.getGroupId());
         instance.setGroupInstanceId(request.getGroupId() + "-" + getCurrentTimeStamp());

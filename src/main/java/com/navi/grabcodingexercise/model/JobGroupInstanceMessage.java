@@ -12,6 +12,9 @@ import java.util.stream.Collectors;
 
 import static com.navi.grabcodingexercise.model.JobGroupRequest.JobRequest;
 
+/***
+ * Model that represents information on the JobGroup execution.
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JobGroupInstanceMessage {
 
@@ -81,6 +84,9 @@ public class JobGroupInstanceMessage {
         this.endTime = endTime;
     }
 
+    /***
+     * Model that represents information on the Job execution.
+     */
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class JobInstanceMessage {
 

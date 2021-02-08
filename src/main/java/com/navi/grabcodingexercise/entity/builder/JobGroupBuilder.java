@@ -13,6 +13,9 @@ import java.util.stream.Collectors;
 
 import static com.navi.grabcodingexercise.model.JobGroupRequest.*;
 
+/***
+ * Builder class to create an instance of Group Entity from JobGroupRequest model. This also is responsible to perform any validation on the request
+ */
 public class JobGroupBuilder {
     final Group jobGroup;
     JobGroupRequest request;
@@ -32,6 +35,10 @@ public class JobGroupBuilder {
         validateRequest();
     }
 
+    /***
+     * Main api method to trigger creation of Group Entity
+     * @return An instance of {@link com.navi.grabcodingexercise.entity.Group}.
+     */
     public Group build() {
         jobGroup.setGroupId(request.getGroupId());
         jobGroup.setGroupDescription(request.getGroupDescription());

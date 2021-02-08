@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/***
+ * Entity class which is the backing ORM class for the table that stores Group info.
+ */
 @Entity
 @Table(name = "job_group",
         uniqueConstraints = @UniqueConstraint(name = "uc_groupid", columnNames = {"group_id"}))

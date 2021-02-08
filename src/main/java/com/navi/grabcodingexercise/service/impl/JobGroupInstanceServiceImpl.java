@@ -25,6 +25,9 @@ import java.util.Optional;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
+/***
+ * Service implementation that has main logic for management of JobGroup execution
+ */
 @Service
 public class JobGroupInstanceServiceImpl implements JobGroupInstanceService {
     private static final Logger logger = LoggerFactory.getLogger(JobGroupInstanceServiceImpl.class);
@@ -60,6 +63,11 @@ public class JobGroupInstanceServiceImpl implements JobGroupInstanceService {
         logger.info("completed executor service shutdown");
     }
 
+    /***
+     * Trigger execution of Job Group for a given Group Id. If a execution is still on going then the current request is rejected
+     * @param groupId Unique user generated identifier for the group
+     * @return An instance of {@link com.navi.grabcodingexercise.model.JobGroupInstanceMessage}
+     */
     @Override
     public JobGroupInstanceMessage executeJobGroup(String groupId) {
         JobGroupRequest request = jobGroupService.getJobGroup(groupId);
@@ -75,6 +83,11 @@ public class JobGroupInstanceServiceImpl implements JobGroupInstanceService {
         }
     }
 
+    /***
+     * Fetches execution status of the group
+     * @param jobGroupInstanceId Unique System generated identifier for the group execution
+     * @return An instance of {@link com.navi.grabcodingexercise.model.JobGroupInstanceMessage}
+     */
     @Override
     public JobGroupInstanceMessage fetchJobGroupInstance(String jobGroupInstanceId) {
         logger.info("Getting job group instance for {}", jobGroupInstanceId);
@@ -83,6 +96,10 @@ public class JobGroupInstanceServiceImpl implements JobGroupInstanceService {
         );
     }
 
+    /***
+     * Cancels execution of the group
+     * @param jobGroupInstanceId Unique System generated identifier for the group execution
+     */
     @Override
     public void cancelJobGroupExecution(String jobGroupInstanceId) {
         if (!jobTrackerMap.containsKey(jobGroupInstanceId)) {

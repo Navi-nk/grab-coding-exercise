@@ -8,6 +8,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.function.Consumer;
 
+/***
+ * Runnable class that is used by {@link com.navi.grabcodingexercise.jobexecutor.async.JobTask} to store standard out and error streams of a Job execution
+ */
 public class ProcessStreamHandler implements Runnable {
     private Logger logger = LoggerFactory.getLogger(ProcessStreamHandler.class);
     private InputStream is;

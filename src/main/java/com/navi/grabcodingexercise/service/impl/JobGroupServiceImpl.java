@@ -15,6 +15,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
+/***
+ * Service implementation that has main logic for storing of JobGroup
+ */
 @Service
 public class JobGroupServiceImpl implements JobGroupService {
     private static final Logger logger = LoggerFactory.getLogger(JobGroupServiceImpl.class);
@@ -25,6 +28,11 @@ public class JobGroupServiceImpl implements JobGroupService {
         this.groupRepository = groupRepository;
     }
 
+    /***
+     * Creates a Group in the system
+     * @param request An instance of type {@link com.navi.grabcodingexercise.model.JobGroupRequest}
+     * @return An instance of type {@link com.navi.grabcodingexercise.model.JobGroupRequest}
+     */
     @Override
     public JobGroupRequest createJobGroup(JobGroupRequest request){
         logger.info(String.format("Received create request: %s", JsonConvertor.toJsonString(request)));
@@ -43,6 +51,12 @@ public class JobGroupServiceImpl implements JobGroupService {
 
     }
 
+    /***
+     * Used to update an existing Group
+     * @param id Unique db identifier for the group
+     * @param request An instance of type {@link com.navi.grabcodingexercise.model.JobGroupRequest} with updated information to be saved
+     * @return An instance of type {@link com.navi.grabcodingexercise.model.JobGroupRequest}
+     */
     @Override
     public JobGroupRequest saveJobGroup(Long id , JobGroupRequest request){
         logger.info(String.format("Received save request: %s for id: %d", JsonConvertor.toJsonString(request), id));
@@ -61,6 +75,11 @@ public class JobGroupServiceImpl implements JobGroupService {
         }
     }
 
+    /***
+     * Fetches a JobGroup from given id
+     * @param id Unique db identifier for the group
+     * @return An instance of type {@link com.navi.grabcodingexercise.model.JobGroupRequest}
+     */
     @Override
     public JobGroupRequest getJobGroup(Long id){
         logger.info(String.format("Received get for id: %d", id));
@@ -69,6 +88,11 @@ public class JobGroupServiceImpl implements JobGroupService {
         );
     }
 
+    /***
+     * Fetches a JobGroup from given id
+     * @param groupId Unique user provided identifier for the group
+     * @return An instance of type {@link com.navi.grabcodingexercise.model.JobGroupRequest}
+     */
     @Override
     public JobGroupRequest getJobGroup(String groupId){
         logger.info(String.format("Received get for id: %s", groupId));
@@ -77,6 +101,10 @@ public class JobGroupServiceImpl implements JobGroupService {
         );
     }
 
+    /***
+     * Deletes a JobGroup for a given id
+     * @param id Unique db identifier for the group
+     */
     @Override
     public void deleteJobGroup(Long id){
         logger.info(String.format("Received delete for id: %d", id));

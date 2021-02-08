@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Objects;
 
+/***
+ * Model that represents the result of a given Job execution
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JobResult {
     Boolean success;

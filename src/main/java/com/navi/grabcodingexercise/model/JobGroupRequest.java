@@ -8,6 +8,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/***
+ * Model used to store JobGroup info
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JobGroupRequest {
 
@@ -73,6 +76,9 @@ public class JobGroupRequest {
         return Objects.hash(getId(), getGroupId(), getGroupDescription(), getJobs());
     }
 
+    /***
+     * Model used to store Job info
+     */
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class JobRequest {
         String jobId;

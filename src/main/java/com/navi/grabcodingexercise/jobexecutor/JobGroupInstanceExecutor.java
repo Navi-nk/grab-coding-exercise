@@ -18,6 +18,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
+/***
+ * Driver class that triggers asynchronous execution of the JobGroup
+ */
 public class JobGroupInstanceExecutor {
     private Logger logger = LoggerFactory.getLogger(JobGroupInstanceExecutor.class);
     private final ExecutorService executorService;
@@ -33,6 +36,11 @@ public class JobGroupInstanceExecutor {
         this.jobInstanceRepository = jobInstanceRepository;
     }
 
+    /***
+     * Contains the core logic to execute a JobGroup. This is an non blocking call and the execution is created in separate thread.
+     * @param request Contains the information on the JobGroup that is to be executed
+     * @return Contains the current status of JobGroup execution
+     */
     public JobGroupInstanceMessage execute(JobGroupRequest request) {
         List<JobGroupInstance> instances = jobGroupInstanceRepository.findByGroupIdAndStatus(request.getGroupId(), ExecutionStatus.RUNNING);
         if (instances.size() > 0) {

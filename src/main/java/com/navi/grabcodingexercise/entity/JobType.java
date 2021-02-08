@@ -1,5 +1,8 @@
 package com.navi.grabcodingexercise.entity;
 
+/***
+ * Enum representing different type of processes that can be executed in the system.
+ */
 public enum JobType {
     JAVA_PROCESS("java"),
     PYTHON_SCRIPT("python"),

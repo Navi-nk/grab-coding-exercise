@@ -6,6 +6,9 @@ import com.navi.grabcodingexercise.model.JobResult;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/***
+ * Entity class which is the backing ORM class for the table that stores Job execution info.
+ */
 @Entity
 @Table(name = "job_instance",
         uniqueConstraints = @UniqueConstraint(name = "uc_group_job_instanceid", columnNames = {"job_instance_id"}))

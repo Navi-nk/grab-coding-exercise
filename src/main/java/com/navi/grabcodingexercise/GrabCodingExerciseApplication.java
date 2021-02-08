@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+/***
+ * Main entry point to the application.
+ */
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.navi.grabcodingexercise.repository")
 @EnableJpaAuditing

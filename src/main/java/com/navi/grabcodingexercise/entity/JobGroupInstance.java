@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+/***
+ * Entity class which is the backing ORM class for the table that stores Group execution info.
+ */
 @Entity
 @Table(name = "job_group_instance",
         uniqueConstraints = @UniqueConstraint(name = "uc_group_instanceid", columnNames = {"group_instance_id"}))

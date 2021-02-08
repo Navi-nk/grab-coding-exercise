@@ -11,6 +11,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/***
+ * A Callable task that represents a Job. Contains the logic to execute a Job of a given Group
+ */
 public class JobTask implements Callable<JobResult> {
 
     private final int SUCCESS_EXIT_CODE = 0;

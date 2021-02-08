@@ -3,8 +3,16 @@ package com.navi.grabcodingexercise.jobexecutor;
 import com.navi.grabcodingexercise.entity.JobType;
 import com.navi.grabcodingexercise.model.JobGroupRequest;
 
+/***
+ * Builder class to create an executable command from Job info.
+ */
 public class JobCommandCreator {
 
+    /***
+     * Constructs a executable command
+     * @param job Contains Job info that is used to construct the corresponding command that will be executed
+     * @return Command as String
+     */
     public static String create(JobGroupRequest.JobRequest job) {
         JobType type = JobType.findJobType(job.getJobType());
         if(type == null)

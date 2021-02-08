@@ -1,5 +1,8 @@
 package com.navi.grabcodingexercise.entity;
 
+/***
+ * Enum representing different states of Job Group execution
+ */
 public enum ExecutionStatus {
     RUNNING("running"),
     COMPLETED("completed"),
