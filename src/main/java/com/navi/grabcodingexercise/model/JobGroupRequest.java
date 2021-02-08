@@ -89,7 +89,7 @@ public class JobGroupRequest {
         String jarPath;
         String mainClass;
         String params;
-        Boolean continueOnFail;
+        Boolean continueOnFail=false;
 
         public static Set<JobRequest> from(Set<Job> jobs) {
             return jobs.stream().map( j -> {
